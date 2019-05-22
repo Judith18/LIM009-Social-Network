@@ -1,6 +1,7 @@
 import config from './lib/index.js';
 import { initRouter } from "./router.js";
 // disparo del evento load despues de la carga de recursos
+//escucha el evento de carga en window//
 window.addEventListener('load', () => {
   firebase.initializeApp(config);
   initRouter();

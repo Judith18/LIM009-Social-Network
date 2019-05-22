@@ -1,3 +1,5 @@
+
+//Función para crear un documento y una colección//
 export const createPost = (uid, userName,userPhoto, contentText, privacy, postImage = null) => {
   return firebase.firestore().collection('posts').add({
     userId: uid,
@@ -11,10 +13,11 @@ export const createPost = (uid, userName,userPhoto, contentText, privacy, postIm
   })
 } 
 
+//Función para recuperar todos los documentos de una colección//
 export const getAllPosts = (callback) => {
     firebase.firestore().collection('posts')
     .orderBy('date', 'desc')
-    .onSnapshot((querySnapshot) => {
+    .onSnapshot((querySnapshot) => { //obtener actualizaciones en tiempo real//
         let data = [];
         querySnapshot.forEach((doc) => {
           data.push({ id: doc.id, ...doc.data() })
@@ -22,6 +25,10 @@ export const getAllPosts = (callback) => {
         callback(data);
       }); 
     }
+
+ 
+
+// Función usando where() para buscar todos los documentos que cumplan una condición determinada y, luego usar get() para recuperar los resultado
 
 export const getPublicPosts = (callback) => {
     firebase.firestore().collection('posts').where("state", "==", "public")
@@ -35,6 +42,8 @@ export const getPublicPosts = (callback) => {
     })
 }
 
+//FUnción para editar los post//
+
 export const updatePost = (idPost, content, privacy) => { 
     let refPost = firebase.firestore().collection('posts').doc(idPost);
     return refPost.update({
@@ -42,6 +51,8 @@ export const updatePost = (idPost, content, privacy) => {
     state: privacy
     });
 }
+
+//FUnción para editar los comentarios del post//
  export const updatePostComments = (idPost,idComments, editComments) => {
    let refPostComments = firebase.firestore().collection('posts').doc(idPost).collection('comments').doc(idComments)
    return refPostComments.update({
@@ -49,8 +60,10 @@ export const updatePost = (idPost, content, privacy) => {
    })
   }
 
+  //FUncion para eliminar post//
 export const deletePost = (idPost) => firebase.firestore().collection('posts').doc(idPost).delete();
 
+//Funcion para eliminar comentarios del post//
 export const deletePostComment = (idPost,idComments) => firebase.firestore().collection('posts').doc(idPost).collection('comments').doc(idComments).delete();
 
 export const uploadImage = (date, image) => {
