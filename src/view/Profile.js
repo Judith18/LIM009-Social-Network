@@ -1,6 +1,7 @@
 import { getCurrenUser } from '../controller/login.js'
 import { updateUser } from '../controller/profile.js';
 import changeHash from './utils.js'
+import { getUser } from '../controller/wall.js';
 
 export default() => {
     const user =getCurrenUser();
